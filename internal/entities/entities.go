@@ -38,14 +38,9 @@ func (d Db) Ping() error {
 }
 
 type DB interface {
-	ActionAllow() ActionAllowInterface
-	Consent() ConsentInterface
-	Contact() ContactInterface
-	Permission() PermissionInterface
-	Role() RoleInterface
-	RoleName() RoleNameInterface
-	User() UserInterface
-	VerifyCode() VerifyCodeInterface
+	Destination() DestinationInterface
+	Source() SourceInterface
+	Expression() ExpressionInterface
 }
 
 func NewDB() (DB, error) {

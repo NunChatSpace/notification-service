@@ -3,7 +3,6 @@ module github.com/NunChatSpace/notification-service
 go 1.16
 
 require (
-	github.com/NunChatSpace/client-service v0.0.0-20211009130105-1b9371ed1171
 	github.com/gin-gonic/gin v1.7.4
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-migrate/migrate/v4 v4.15.1

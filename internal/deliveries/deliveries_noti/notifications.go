@@ -49,3 +49,12 @@ func AddExpression(db entities.DB, model Expression) (response_wrapper.Model, er
 		Message:    "",
 	}, nil
 }
+
+func GetAllExpression(db entities.DB, owner_uid string) (response_wrapper.Model, error) {
+
+	return response_wrapper.Model{
+		StatusCode: http.StatusOK,
+		Data:       nil,
+		Message:    "",
+	}, nil
+}
