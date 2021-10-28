@@ -9,23 +9,18 @@ security:
   - basicAuth: []
   - bearerAuth: []
 paths:
-  /tokens/:
-    post:
-      summary: Get access token
-      requestBody:
-        description: Signin information
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/SigninModel'
-        required: true
+  /notifications/source/:uid:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Get source by uid
       responses:
         '200':
           description: success response
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/TokenSuccessResponse'
+                $ref: '#/components/schemas/SourceSuccessResponse'
         '500':
           description: internal server error
           content:
@@ -33,73 +28,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
-  /tokens/refresh:
-    post:
+  /notifications/source:
+    post: 
       security:
         - bearerAuth: []
-      summary: Refresh access token
-      responses:
-        '200':
-          description: success
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/TokenSuccessResponse'
-        '403':
-          description: forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: internal server error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-  /tokens/intrspct:
-    post:
-      security:
-        - bearerAuth: []
-      summary: Decode token
-      responses:
-        '202':
-          description: accept
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/IntrospectionSuccessResult'
-        '403':
-          description: forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: internal server error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-  /users/:
-    post:
-      security:
-        - bearerAuth: []
-      summary: Register user
+      summary: Add sources
       requestBody:
-        description: Signin information
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/RegisterUserBody'
+              $ref: '#/components/schemas/BodySource'
         required: true
-      responses:
+      responses: 
         '200':
           description: success
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/IntrospectionSuccessResult'
+                $ref: '#/components/schemas/SourceSuccessResponse'
         '403':
           description: forbidden
           content:
@@ -112,103 +58,252 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    get:
+      security:
+        - bearerAuth: []
+      summary: Get sorces by owner id
+      responses:
+        '200':
+          description: success
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SourceSuccessResponse'
+        '403':
+          description: forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'           
+  /notifications/destination/:uid:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Get destination by uid
+      responses:
+        '200':
+          description: success response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DestinationSuccessResponse'
+        '500':
+          description: internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+  /notifications/destination:
+    post: 
+      security:
+        - bearerAuth: []
+      summary: Add destinations
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BodyDestination'
+        required: true
+      responses: 
+        '200':
+          description: success
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DestinationSuccessResponse'
+        '403':
+          description: forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      security:
+        - bearerAuth: []
+      summary: Get destinations by owner id
+      responses:
+        '200':
+          description: success
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DestinationSuccessResponse'
+        '403':
+          description: forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /notifications/expression:
+    post: 
+      security:
+        - bearerAuth: []
+      summary: Add destinations
+      responses: 
+        '200':
+          description: success
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExpressionSuccessResponse'
+        '403':
+          description: forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      security:
+        - bearerAuth: []
+      summary: Get destinations by owner id
+      responses:
+        '200':
+          description: success
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExpressionSuccessResponse'
+        '403':
+          description: forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'  
+  /notifications/expression/:uid:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Get expression by uid
+      responses:
+        '200':
+          description: success response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExpressionSuccessResponse'
+        '500':
+          description: internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'              
 components:
   schemas:
-    TokenSuccessResponse:
+    BodyDestination:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/TokenSuccessResponse_data'
-        message:
+        name:
           type: string
-          example: ''
+          example: abc
+        type:
+          type: string
+          example: line
+        topic: 
+          type: string
+          example: /line/:token
+        data:
+          type: string
+          example: '{message:"1234", ...}'
+    BodySource:
+      type: object
+      properties:
+        name:
+          type: string
+          example: abc
+        server_address:
+          type: string
+          example: 192.196.123.123
+        database_name: 
+          type: string
+        table_name:
+          type: string
+        data_key:
+          type: string
+          example: columnA
+    BodyExpression:
+      type: object
+      properties:
+        name:
+          type: string
+          example: abc
+        source_id:
+          type: string
+          example: uid
+        condition: 
+          type: string
+          example: '? > 300'
+        destination_id:
+          type: string
+          example: uid
+        interval:
+          type: string
+          example: 1 (minute)
+        message_in_condition:
+          type: string
+          example: attributes is in condition
+        message_out_condition:
+          type: string
+          example: attributes is out condition
     ErrorResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/ErrorResponse_data'
+          type: object
         message:
           type: string
           example: '{error message}'
-    SigninModel:
-      type: object
-      properties:
-        Email:
-          type: string
-          example: abc@abc.com
-        Password:
-          type: string
-          example: '1234'
-    IntrospectionSuccessResult:
+    SourceSuccessResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/IntrospectionSuccessResult_data'
+          $ref: '#/components/schemas/BodySource'
         message:
           type: string
-          example: ''
-    RegisterUserBody:
+    DestinationSuccessResponse:
       type: object
       properties:
-        FirstName:
+        data:
+          $ref: '#/components/schemas/BodyDestination'
+        message:
           type: string
-          example: 'Albert'
-        MiddleName:
-          type: string
-          example: 'E.'
-        LastName:
-          type: string
-          example: 'Something'
-        Password:
-          type: string
-          example: '1234'
-        PhoneNumber:
-          type: string
-          example: '0811111111'
-        Email:
-          type: string
-          example: 'emal@email.com'
-        Address:
-          type: string
-          example: 'Poserdon 123 Rd.Ratchadaphisek Thailand'
-    TokenSuccessResponse_data:
+    ExpressionSuccessResponse:
       type: object
       properties:
-        access_token:
+        data:
+          $ref: '#/components/schemas/BodyExpression'
+        message:
           type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzMwNzUwMDYsInBlcm1pc3Npb24iOm51bGwsInR5cGUiOiJ1c2VyX2FjY2VzcyIsInVzZXJfaWQiOiIxNjNENzFGQy0yNTVDLTQ2MEQtQTEzMi1GRTQ3RDhFM0IyRUQifQ.SG1r3SfzuHI5-URyHI5Rjshl2SLBBEAuPdQqIjpn-TE
-        refresh_token:
-          type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzMwNzUwMDYsInBlcm1pc3Npb24iOm51bGwsInR5cGUiOiJ1c2VyX2FjY2VzcyIsInVzZXJfaWQiOiIxNjNENzFGQy0yNTVDLTQ2MEQtQTEzMi1GRTQ3RDhFM0IyRUQifQ.SG1r3SfzuHI5-URyHI5Rjshl2SLBBEAuPdQqIjpn-TE
-    ErrorResponse_data:
-      type: object
-      properties:
-        access_token:
-          type: string
-          example: ''
-        refresh_token:
-          type: string
-          example: ''
-    IntrospectionSuccessResult_data:
-      type: object
-      properties:
-        exp:
-          type: integer
-          example: 1633082822
-        permission:
-          type: array
-          items:
-            type: string
-            example: ''
-        type:
-          type: string
-          example: user_access
-        user_id:
-          type: string
-          example: DCB91C39-9AB2-49A6-A6AB-5A2C5C69DA08
-        verify_code:
-          type: string
-          example: 26B62860-13D5-4292-AEE3-F86F59C57D7D
   securitySchemes:
     bearerAuth:
       type: http
